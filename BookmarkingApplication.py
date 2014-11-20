@@ -4,8 +4,13 @@
 
 from django.db import models
 from django.core.validators import URLValidator
+from django.contrib.auth import authenticate, login
+from django.views.generic.list import ListView
+from django.utils import timezone
 
-class userObject(model.Model):
+from articles.models import Article
+
+class userObject(models.Model):
 	"""
 	A category for users.
 	"""
@@ -23,21 +28,22 @@ AuthenticationMiddleware associates users with requests using sessions.
 With these settings in place, running the command manage.py migrate creates the necessary database tables for auth related models and permissions for any models defined in your installed apps."""
 
 # Internal ID: Char field of length 25, can be null and blank.
-	internal_Id = model.CharField(max_length = 25, blank = True, null = True)
+	internal_Id = models.CharField(max_length = 25, null = True, blank = True)
 
 # verified: Boolean field, not null and cannot be blank. Default is False.
-	verified = model(bool(null = False, default = False))
+	verified = models(bool(null = False, default = False))
 
 # approval_date: Datetime field, can be null and blank.
-	approval_date = model.approval_date(null = True, blank = True)
+	approval_date = models.approval_date(null = True, blank = True)
+	def __unicode__(self):
+		return (self.userObject)
 
-
-class listObject(model.Model):
+class listObject(models.Model):
 	"""
 	A category for creating lists.
 	"""
 # Name: Char field of length 50, not null and cannot be blank.
-	name = model.CharField(max_length = 50)
+	name = models.CharField(max_length = 50, null = False, blank = False)
 
 # Date Created: DateTimeField, updated only once at object creation time.
 	date_created = class DateTimeField([auto_now = False, auto_now_add = False, **options])
@@ -49,21 +55,24 @@ class listObject(model.Model):
 	class Article(models.Model):
     Links = models.ManyToManyField(Links)
 
-class linkObject(model.Model)
+class linkObject(models.Model)
 
 
 # Name: Char field of length 50, not null and cannot be blank.
-	name = model.CharField(max_length = 50)
+	name = models.CharField(max_length = 50, null = False, blank = False)
 
 # Link: URLField, not null and cannot be blank.
 	# in model
 	field = models.TextField(validators=[URLValidator()])
 
 # Date Created: DateTimeField, updated only once at object creation time.
-	TextField_modified = class DateTimeField([auto_now = False, auto_now_add = False, **options])
+	TextField_modified = class DateTimeField([auto_now = False, auto_now_add = True, **options])
+
+
+
 
 # Date Modified: DatetimeField, updated every time the object is updated.
-	date_modified = class DateTimeField([auto_now = False, auto_now_add = False, **options])
+	date_modified = class DateTimeField([auto_now = True, auto_now_add = False, **options])
 
 # Tags: Textfield, can be null and blank.
 
@@ -72,8 +81,28 @@ class linkObject(model.Model)
 # Please also create views for:
 
 # 1. A login page
+def my_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            # Redirect to a success page.
+        else:
+            # Return a 'disabled account' error message
+    else:
+        # Return an 'invalid login' error message.
 
 # 2. A list of all Lists in the system
+class ArticleListView(ListView):
+
+    model = Article
+
+    def get_context_data(self, **kwargs):
+        context = super(ArticleListView, self).get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 # 2.1 Have a form that allows someone to create a new List object.
 
