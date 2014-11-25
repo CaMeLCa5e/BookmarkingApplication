@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Bookmarker</h1>
+  <h4>Create a Link List page</h4><hr/>
+
+  <form action="../createpost/" method="post">{% csrf_token %}
+    List Name: <input type="text" name="name"><br/>
+               <input type="submit" value="Submit">
+  </form><hr/>  
+
+</body>
+</html>
+

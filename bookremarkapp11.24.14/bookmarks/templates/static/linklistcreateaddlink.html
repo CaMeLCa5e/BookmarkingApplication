@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Bookmarker</h1>
+  <h4>Create a Link</h4><hr/>
+
+  <form action="../addlinkpost/" method="post">{% csrf_token %}
+    Link Name: <input type="text" name="name"/><br/>
+    Link URL:  <input type="text" name="url"/><br/>
+    Link Tags  <input type="text" name="tags"/>
+               <input type="hidden" name="linklist_id" value="{{ linklist_id }}">
+               <input type="submit" value="Submit">
+  </form><hr/>
+
+</body>
+</html>
+

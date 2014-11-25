@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Bookmarker</h1>
+  <h4>All Lists</h4><hr/>
+
+{% if all_linklists %}
+    <ul>
+    {% for linklist in all_linklists %}
+        <li><a href="/linklist/retrieve/{{ linklist.id }}">View Link List: {{ linklist.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Lists available.</p>
+{% endif %}
+  <hr/>
+  
+  <a href='../create/'>Create a new Link List</a><hr/>
+
+</body>
+</html>
+

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+  <h1>Bookmarker</h1>
+  <h4>Show All Links in a List</h4><hr/>
+
+{% if linklist %}
+    <ul>
+    {% for link in linklist.links.all %}
+        <li><a href="{{ link.link }}">{{ link.name }}</a> <a href="../../link/delete/{{ link.id }}">delete</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No links available.</p>
+{% endif %}
+  <hr/>
+  
+  <h5>Add New Links to a Link List</h5><hr/>
+  <a href='../addlink/{{ linklist.id }}'>Add new link to this list</a><hr/>
+
+</body>
+</html>
+
